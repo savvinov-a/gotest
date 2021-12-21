@@ -70,6 +70,7 @@ func gotest(args []string) int {
 	sigc := make(chan os.Signal)
 	done := make(chan struct{})
 	defer func() {
+		fmt.Print("/n")
 		fmt.Printf(bu.String())
 		done <- struct{}{}
 	}()
@@ -143,9 +144,9 @@ func parse(line string) {
 	color.Set(c)
 	switch c {
 	case skip, pass:
-		fmt.Printf(square, " ")
+		fmt.Printf(square + " ")
 	case fail:
-		fmt.Printf(square, " ")
+		fmt.Printf(square + " ")
 		bu.WriteString(fmt.Sprintf("%s\n", line))
 	}
 }
