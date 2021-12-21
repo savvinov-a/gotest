@@ -70,8 +70,8 @@ func gotest(args []string) int {
 	sigc := make(chan os.Signal)
 	done := make(chan struct{})
 	defer func() {
-		fmt.Print("/n")
-		fmt.Printf(bu.String())
+		fmt.Print("\n")
+		color.HiRed(bu.String())
 		done <- struct{}{}
 	}()
 	signal.Notify(sigc)
