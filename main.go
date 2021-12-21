@@ -28,7 +28,7 @@ var (
 	fail   = color.FgHiRed
 	square = "\u25A0"
 
-	buffer = new(bytes.Buffer)
+	bu = new(bytes.Buffer)
 
 	skipnotest bool
 )
@@ -70,6 +70,7 @@ func gotest(args []string) int {
 	sigc := make(chan os.Signal)
 	done := make(chan struct{})
 	defer func() {
+		fmt.Printf(bu.String())
 		done <- struct{}{}
 	}()
 	signal.Notify(sigc)
@@ -91,7 +92,6 @@ func gotest(args []string) int {
 		}
 		return 1
 	}
-	fmt.Printf(buffer.String())
 	return 0
 }
 
@@ -143,10 +143,10 @@ func parse(line string) {
 	color.Set(c)
 	switch c {
 	case skip, pass:
-		fmt.Printf(square)
+		fmt.Printf(square, " ")
 	case fail:
-		fmt.Printf(square)
-		buffer.WriteString(fmt.Sprintf("%s\n", line))
+		fmt.Printf(square, " ")
+		bu.WriteString(fmt.Sprintf("%s\n", line))
 	}
 }
 
