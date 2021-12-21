@@ -8,6 +8,7 @@ package main
 
 import (
 	"bufio"
+	"bytes"
 	"fmt"
 	"io"
 	"log"
@@ -22,9 +23,12 @@ import (
 )
 
 var (
-	pass = color.FgGreen
-	skip = color.FgYellow
-	fail = color.FgHiRed
+	pass   = color.FgGreen
+	skip   = color.FgYellow
+	fail   = color.FgHiRed
+	square = "\u25A0"
+
+	buffer = new(bytes.Buffer)
 
 	skipnotest bool
 )
@@ -87,6 +91,7 @@ func gotest(args []string) int {
 		}
 		return 1
 	}
+	fmt.Printf(buffer.String())
 	return 0
 }
 
@@ -136,7 +141,13 @@ func parse(line string) {
 	}
 
 	color.Set(c)
-	fmt.Printf("%s\n", line)
+	switch c {
+	case skip, pass:
+		fmt.Printf(square)
+	case fail:
+		fmt.Printf(square)
+		buffer.WriteString(fmt.Sprintf("%s\n", line))
+	}
 }
 
 func enableOnCI() {
